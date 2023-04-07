@@ -39,7 +39,6 @@ function createGalleyItem(src, srcset, alt) {
 function lightboxOn(evt) {
   evt.preventDefault();
   const clickedItem = evt.target.closest('.gallery__link').firstElementChild;
-  console.log(clickedItem);
   instance = basicLightbox.create(`
     <img src="${clickedItem.dataset.source}" width="1280" height="855">
 `);
