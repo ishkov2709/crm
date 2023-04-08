@@ -31,7 +31,7 @@ function createGalleyItem(src, srcset, alt) {
           src="${src}"
           alt="${alt}"
           width="372"
-          height="240"
+          height="2"
         />
       </a>
     </li>`;
@@ -44,15 +44,11 @@ function lightboxOn(evt) {
     <img src="${clickedItem.dataset.source}" width="1280" height="855">
 `);
 
-  instance.show();
-
-  window.addEventListener('keydown', lightboxOff);
+  instance.show(window.addEventListener('keydown', lightboxOff));
 }
 
 function lightboxOff(evt) {
   if (evt.code === 'Escape') {
-    instance.close();
-
-    window.removeEventListener('keydown', lightboxOff);
+    instance.close(window.removeEventListener('keydown', lightboxOff));
   }
 }
