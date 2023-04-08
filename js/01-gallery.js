@@ -8,13 +8,13 @@ let instance;
 
 // Base Markup
 
-const baseGalleryItemsMarkup = galleryItems
+const baseItemsGalleryMarkup = galleryItems
   .map(({ preview, original, description }) => {
     return createGalleyItem(preview, original, description);
   })
   .join('');
 
-listGalleryEl.innerHTML = baseGalleryItemsMarkup;
+listGalleryEl.innerHTML = baseItemsGalleryMarkup;
 
 // Listeners
 
@@ -26,11 +26,12 @@ function createGalleyItem(src, srcset, alt) {
   return `<li class="gallery_item">
       <a class="gallery__link" href="${srcset}">
         <img
+          class="gallery__image"
           data-source="${srcset}"
           src="${src}"
           alt="${alt}"
-          width="340"
-          height="227"
+          width="372"
+          height="240"
         />
       </a>
     </li>`;
