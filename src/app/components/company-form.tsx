@@ -26,7 +26,7 @@ const initialValues: CompanyFieldValues = {
 };
 
 export interface CompanyFormProps {
-  onSubmit?: (values: CompanyFieldValues) => void | Promise<void>;
+  onSubmit: (values: CompanyFieldValues) => void | Promise<void>;
 }
 
 export default function CompanyForm({ onSubmit }: CompanyFormProps) {

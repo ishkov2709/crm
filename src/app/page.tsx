@@ -1,22 +1,17 @@
-import { headers } from 'next/headers';
-import StatusLabel, { CompanyStatus } from './components/status-label';
+import AddCompanyButton from './components/add-company-button';
+import ClientComponent from './components/client-component';
+import ServerComponent from './components/server-component';
+import ServerComponentCopy from './components/server-component copy';
 
 export default function Home() {
   return (
     <main>
-      <h1 className="text-xl">Hello World{new Date().toTimeString()}</h1>
-      <StatusLabel disabled={false} status={CompanyStatus.Active}>
-        Active
-      </StatusLabel>
-      <StatusLabel disabled={true} status={CompanyStatus.NotActive}>
-        Not Active
-      </StatusLabel>
-      <StatusLabel disabled={true} status={CompanyStatus.Pending}>
-        Pending
-      </StatusLabel>
-      <StatusLabel disabled={true} status={CompanyStatus.Suspended}>
-        Suspended
-      </StatusLabel>
+      <h1 className="text-xl">Home Page</h1>
+      <AddCompanyButton />
+      <ServerComponent />
+      <ClientComponent>
+        <ServerComponentCopy />
+      </ClientComponent>
     </main>
   );
 }
