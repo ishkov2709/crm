@@ -9,9 +9,9 @@ export enum CompanyStatus {
 }
 
 export interface StatusLabelProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   status: CompanyStatus;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export default function StatusLabel({
@@ -22,7 +22,7 @@ export default function StatusLabel({
   return (
     <div
       className={clsx(
-        'inline-flex items-center py-1 px-3.5 rounded-3xl text-sm font-medium',
+        'inline-flex items-center py-1 px-3.5 rounded-3xl text-sm font-medium capitalize',
         status === CompanyStatus.Active && 'text-green-700 bg-green-100',
         status === CompanyStatus.NotActive && 'text-red-700 bg-red-100',
         status === CompanyStatus.Pending && 'text-orange-700 bg-orange-100',
