@@ -1,22 +1,18 @@
 'use client';
 
+import React from 'react';
 import Button from '@/app/components/button';
 
-export interface ErrorProps {
+export interface ErrorComponentProps {
   error: Error;
   reset: () => void;
 }
 
-export default function Error({ error, reset }: ErrorProps) {
+export default function ErrorComponent({ error, reset }: ErrorComponentProps) {
   return (
     <div>
-      <h1 className="text-xl text-center my-6">
-        Something went wrong 😥. {error.message}
-      </h1>
-
-      <div className="flex justify-center">
-        <Button onClick={() => reset()}>Reset</Button>
-      </div>
+      <p>{`Something went wrong. ${error.message}`}</p>
+      <Button onClick={() => reset()}>Try again</Button>
     </div>
   );
 }

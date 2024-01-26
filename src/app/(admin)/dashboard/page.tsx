@@ -1,12 +1,12 @@
-import MagicButton from '@/app/components/magic-button';
+import React from 'react';
+import Header from '@/app/components/header';
 
-export interface DashboardProps {}
+export interface PageProps {}
 
-export default function Dashboard() {
+export default function Page({}: PageProps) {
   return (
     <>
-      <h1>Dashboard</h1>
-      <MagicButton />
+      <Header>Dashboard</Header>
     </>
   );
 }
