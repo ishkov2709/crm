@@ -1,33 +1,26 @@
-import AddCompanyButton from '../../components/add-company-button';
-import CompanyRow from '../../components/company-row';
-import CompanyTable from '../../components/company-table';
-import Header from '../../components/header';
-import SearchInput from '../../components/search-input';
-import Toolbar from '../../components/toolbar';
-import { CompanyStatus } from '../../lib/api';
+import CompanyTable from '@/app/components/company-table';
+import React from 'react';
+// import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+// import { getCompanies } from '@/lib/api';
+// import getQueryClient from '@/lib/utils/getQueryClient';
+// import CompanyTable from '@/app/components/company-table';
 
 export interface PageProps {}
 
-export default function Page() {
+export default async function Page({}: PageProps) {
+  // const queryClient = getQueryClient();
+
+  // await queryClient.prefetchQuery({
+  //   queryKey: ['companies'],
+  //   queryFn: () => getCompanies({ cache: 'no-store' }),
+  //   staleTime: 10 * 1000,
+  // });
+
+  // const dehydratedState = dehydrate(queryClient);
+
   return (
-    <>
-      <Header>Companies</Header>
-      <Toolbar action={<AddCompanyButton />}>
-        <SearchInput />
-      </Toolbar>
-      <CompanyTable>
-        <CompanyRow
-          company={{
-            id: '1',
-            categoryTitle: 'Products',
-            title: 'Costco',
-            status: CompanyStatus.Pending,
-            hasPromotions: true,
-            countryTitle: 'USA',
-            joinedDate: '02.19.2023',
-          }}
-        />
-      </CompanyTable>
-    </>
+    <div>
+      <CompanyTable />
+    </div>
   );
 }

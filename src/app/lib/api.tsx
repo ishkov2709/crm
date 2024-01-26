@@ -62,7 +62,7 @@ const buildUrl = (...paths: string[]) =>
 const stringifyQueryParams = (params: Record<string, string>) =>
   new URLSearchParams(params).toString();
 
-const sendRequest = async <T>(url: string, init?: RequestInit) => {
+const sendRequest = async function <T>(url: string, init?: RequestInit) {
   const res = await fetch(url, init);
   if (!res.ok) {
     throw new Error(await res.text());
