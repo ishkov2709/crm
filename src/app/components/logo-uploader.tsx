@@ -13,8 +13,8 @@ export interface LogoUploaderProps
 export default function LogoUploader({
   square,
   label,
-  id,
   placeholder,
+  id,
   ...rest
 }: LogoUploaderProps) {
   return (
@@ -31,6 +31,7 @@ export default function LogoUploader({
         className={clsx(
           'flex flex-col items-center justify-center h-40 bg-white border border-slate-900 border-dashed cursor-pointer',
           !square && 'w-40 rounded-full',
+          square && 'w-full',
         )}
       >
         <Image

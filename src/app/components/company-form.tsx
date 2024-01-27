@@ -2,10 +2,17 @@
 
 import React from 'react';
 import { Form, Formik } from 'formik';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  CompanyStatus,
+  createCompany,
+  getCategories,
+  getCountries,
+} from '@/lib/api';
 import Button from '@/app/components/button';
 import InputField from '@/app/components/input-field';
 import LogoUploader from '@/app/components/logo-uploader';
-import { CompanyStatus } from '@/app/components/status-label';
+import StatusLabel from '@/app/components/status-label';
 
 export type CompanyFieldValues = {
   title: string;
@@ -26,12 +33,49 @@ const initialValues: CompanyFieldValues = {
 };
 
 export interface CompanyFormProps {
-  onSubmit: (values: CompanyFieldValues) => void | Promise<void>;
+  onSubmit?: (values: CompanyFieldValues) => void | Promise<void>;
 }
 
 export default function CompanyForm({ onSubmit }: CompanyFormProps) {
+  const queryClient = useQueryClient();
+
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+    staleTime: 10 * 1000,
+  });
+
+  const { data: countries } = useQuery({
+    queryKey: ['countries'],
+    queryFn: getCountries,
+    staleTime: 10 * 1000,
+  });
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: createCompany,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['companies'],
+      });
+    },
+  });
+
+  const handleSubmit = async (values: CompanyFieldValues) => {
+    await mutateAsync({
+      ...values,
+      categoryTitle:
+        categories?.find(({ id }) => id === values.categoryId)?.title ?? '',
+      countryTitle:
+        countries?.find(({ id }) => id === values.countryId)?.title ?? '',
+    });
+
+    if (onSubmit) {
+      onSubmit(values);
+    }
+  };
+
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form className="flex flex-col gap-10">
         <p className="mb-0.5 text-xl">Add new company</p>
         <div className="flex gap-6">
@@ -43,14 +87,28 @@ export default function CompanyForm({ onSubmit }: CompanyFormProps) {
               placeholder="Status"
               name="status"
               as="select"
-            ></InputField>
+            >
+              {(Object.values(CompanyStatus) as CompanyStatus[]).map(
+                (status) => (
+                  <option key={status} value={status}>
+                    <StatusLabel status={status} styled={false} />
+                  </option>
+                ),
+              )}
+            </InputField>
             <InputField
               required
               label="Country"
               placeholder="Country"
               name="countryId"
               as="select"
-            ></InputField>
+            >
+              {countries?.map((country) => (
+                <option key={country.id} value={country.id}>
+                  {country.title}
+                </option>
+              ))}
+            </InputField>
           </div>
           <div className="flex flex-col flex-1 gap-5">
             <InputField required label="Name" placeholder="Name" name="title" />
@@ -60,7 +118,13 @@ export default function CompanyForm({ onSubmit }: CompanyFormProps) {
               placeholder="Category"
               name="categoryId"
               as="select"
-            ></InputField>
+            >
+              {categories?.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.title}
+                </option>
+              ))}
+            </InputField>
             <InputField
               required
               label="Joined date"
@@ -75,7 +139,9 @@ export default function CompanyForm({ onSubmit }: CompanyFormProps) {
             />
           </div>
         </div>
-        <Button type="submit">Add company</Button>
+        <Button type="submit" disabled={isPending}>
+          Add company
+        </Button>
       </Form>
     </Formik>
   );

@@ -2,8 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Company } from '../lib/api';
-import StatusLabel from './status-label';
+import StatusLabel from '@/app/components/status-label';
+import { Company } from '@/lib/api';
 
 export interface CompanyRowProps {
   company: Company;
@@ -19,7 +19,7 @@ export default function CompanyRow({ company }: CompanyRowProps) {
         <Link href={`/companies/${company.id}`}>{company.title}</Link>
       </td>
       <td>
-        <StatusLabel status={company.status}>{company.status}</StatusLabel>
+        <StatusLabel status={company.status} />
       </td>
       <td>
         <div className="inline-flex items-center gap-1">
@@ -40,11 +40,9 @@ export default function CompanyRow({ company }: CompanyRowProps) {
         </div>
       </td>
       <td>{company.countryTitle}</td>
-      {company.joinedDate && (
-        <td className="rounded-r">
-          {new Date(company.joinedDate).toLocaleDateString('uk-UA')}
-        </td>
-      )}
+      <td className="rounded-r">
+        {new Date(company.joinedDate).toLocaleDateString('uk-UA')}
+      </td>
     </tr>
   );
 }
