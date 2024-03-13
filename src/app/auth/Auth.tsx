@@ -35,5 +35,18 @@ export function Auth() {
 		mutate(data)
 	}
 
-	return <div>Auth</div>
+	return (
+		<div className='flex min-h-screen'>
+			<form
+				className='w-1/4 m-auto shadow bg-sidebar rounded-xl p-layout'
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				{/*  */}
+				{/* Fiealds */}
+				<div className='flex items-center gap-5 justify-center'>
+					{/* BUTTONS */}
+				</div>
+			</form>
+		</div>
+	)
 }
