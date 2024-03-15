@@ -9,7 +9,7 @@ interface InputFieldProps {
 	state?: 'error' | 'success'
 	disabled?: boolean
 	type?: string
-	onchange: ChangeEventHandler<HTMLInputElement>
+	onchange?: ChangeEventHandler<HTMLInputElement>
 	isNumber?: boolean
 }
 
