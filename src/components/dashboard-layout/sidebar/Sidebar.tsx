@@ -1,4 +1,11 @@
+import { GanttChartSquare } from 'lucide-react'
 import Link from 'next/link'
+
+import { COLORS } from '@/constants/color.constants'
+
+import { LogoutButton } from './LogoutButton'
+import { MenuItem } from './MenuItem'
+import { MENU } from './menu.data'
 
 export function Sidebar() {
 	return (
@@ -8,8 +15,26 @@ export function Sidebar() {
 					href='/'
 					className='flex items-center gap-2.5 p-layout bo border-b border-b-border'
 					draggable={false}
-				></Link>
+				>
+					<GanttChartSquare
+						color={COLORS.primary}
+						size={38}
+					/>
+					<span className='text-2xl font-bold relative'>Planner</span>
+				</Link>
+				<div className='p-3 relative'>
+					<LogoutButton />
+					{MENU.map(item => (
+						<MenuItem
+							item={item}
+							key={item.link}
+						/>
+					))}
+				</div>
 			</div>
+			<footer className='text-xs opacity-40 font-normal text-center p-layout'>
+				2024 &copy; Planner
+			</footer>
 		</aside>
 	)
 }
