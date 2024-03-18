@@ -12,8 +12,8 @@ export function useUpdateSettings() {
 		mutationKey: ['update profile'],
 		mutationFn: (data: TypeUserForm) => userService.update(data),
 		onSuccess() {
-			toast.success('Successfully update prfile!')
-			queryClient.invalidateQueries({ queryKey: ['prfile'] })
+			toast.success('Successfully update profile!')
+			queryClient.invalidateQueries({ queryKey: ['profile'] })
 		}
 	})
 
