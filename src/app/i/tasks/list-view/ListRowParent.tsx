@@ -1,9 +1,10 @@
 import { Draggable, Droppable } from '@hello-pangea/dnd'
 import { Dispatch, SetStateAction } from 'react'
 
-import { ITaskResponse } from '@/types/task.types'
+import type { ITaskResponse } from '@/types/task.types'
 
 import { FILTERS } from '../columns.data'
+import { filterTasks } from '../filter-tasks'
 
 import ListRow from './ListRow'
 import styles from './ListView.module.scss'
