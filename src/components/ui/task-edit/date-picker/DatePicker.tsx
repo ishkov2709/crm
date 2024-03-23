@@ -4,7 +4,6 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import { X } from 'lucide-react'
 import { useState } from 'react'
 import { DayPicker, type SelectSingleEventHandler } from 'react-day-picker'
-import 'react-day-picker/dist/style.css'
 
 import { useOutside } from '@/hooks/useOutside'
 

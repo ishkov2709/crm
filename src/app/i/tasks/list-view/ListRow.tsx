@@ -1,6 +1,6 @@
 import cn from 'clsx'
 import { GripVertical, Loader, Trash } from 'lucide-react'
-import { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import Checkbox from '@/components/ui/checkbox'
@@ -8,7 +8,7 @@ import { TransparentField } from '@/components/ui/fields/TransparentField'
 import SingleSelect from '@/components/ui/task-edit/SingleSelect'
 import DatePicker from '@/components/ui/task-edit/date-picker/DatePicker'
 
-import { ITaskResponse, TypeTaskFormState } from '@/types/task.types'
+import type { ITaskResponse, TypeTaskFormState } from '@/types/task.types'
 
 import { useDeleteTask } from '../hooks/useDeleteTask'
 import { useTaskDebounce } from '../hooks/useTaskDebounce'
@@ -20,7 +20,7 @@ interface IListRow {
 	setItems: Dispatch<SetStateAction<ITaskResponse[] | undefined>>
 }
 
-export default function ListRow({ item, setItems }: IListRow) {
+export function ListRow({ item, setItems }: IListRow) {
 	const { register, control, watch } = useForm<TypeTaskFormState>({
 		defaultValues: {
 			name: item.name,
@@ -42,7 +42,7 @@ export default function ListRow({ item, setItems }: IListRow) {
 				'animation-opacity'
 			)}
 		>
-			<div className='inline-flex items-center gap-2.5 w-full'>
+			<div>
 				<span className='inline-flex items-center gap-2.5 w-full'>
 					<button aria-describedby='todo-item'>
 						<GripVertical className={styles.grip} />
@@ -93,7 +93,7 @@ export default function ListRow({ item, setItems }: IListRow) {
 			<div>
 				<button
 					onClick={() =>
-						item.id ? deleteTask(item.id) : setItems(prev => prev?.slice(0 - 1))
+						item.id ? deleteTask(item.id) : setItems(prev => prev?.slice(0, -1))
 					}
 					className='opacity-50 transition-opacity hover:opacity-100'
 				>

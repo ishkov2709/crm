@@ -1,12 +1,13 @@
 import { Draggable, Droppable } from '@hello-pangea/dnd'
-import { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
 import type { ITaskResponse } from '@/types/task.types'
 
 import { FILTERS } from '../columns.data'
 import { filterTasks } from '../filter-tasks'
 
-import ListRow from './ListRow'
+import { ListAddRowInput } from './ListAddRowInput'
+import { ListRow } from './ListRow'
 import styles from './ListView.module.scss'
 
 interface IListRowParent {
@@ -16,7 +17,7 @@ interface IListRowParent {
 	setItems: Dispatch<SetStateAction<ITaskResponse[] | undefined>>
 }
 
-export default function ListRowParent({
+export function ListRowParent({
 	value,
 	items,
 	label,
@@ -44,7 +45,6 @@ export default function ListRowParent({
 									ref={provided.innerRef}
 									{...provided.draggableProps}
 									{...provided.dragHandleProps}
-									className='z-[4] relative'
 								>
 									<ListRow
 										key={item.id}
