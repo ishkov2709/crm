@@ -1,21 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { useEffect } from 'react'
 
-import { IPomodoroRoundResponse } from '@/types/pomodoro.types'
+import type { ITimeState } from '../timer.types'
 
+import { useLoadSettings } from './useLoadSettings'
 import { pomodoroService } from '@/api/services/pomodoro.service'
-
-interface IUseTodaySession {
-	setActiveRound: Dispatch<SetStateAction<IPomodoroRoundResponse | undefined>>
-	setSecondsLeft: Dispatch<SetStateAction<number>>
-	workInterval: number
-}
 
 export function useTodaySession({
 	setActiveRound,
-	setSecondsLeft,
-	workInterval
-}: IUseTodaySession) {
+	setSecondsLeft
+}: ITimeState) {
+	const { workInterval } = useLoadSettings()
+
 	const {
 		data: sessionsResponse,
 		isLoading,
@@ -26,7 +22,7 @@ export function useTodaySession({
 		queryFn: () => pomodoroService.getTodaySession()
 	})
 
-	const rounds = sessionsResponse?.data.rounds
+	const rounds = sessionsResponse?.data.pomodoroRounds
 
 	useEffect(() => {
 		if (isSuccess && rounds) {
@@ -35,10 +31,10 @@ export function useTodaySession({
 			setActiveRound(activeRound)
 
 			if (activeRound && activeRound.totalSeconds !== 0) {
-				setSecondsLeft(workInterval - activeRound.totalSeconds)
+				setSecondsLeft(activeRound.totalSeconds)
 			}
 		}
 	}, [isSuccess, rounds])
 
-	return { sessionsResponse, isLoading, refetch, isSuccess }
+	return { sessionsResponse, isLoading, workInterval }
 }

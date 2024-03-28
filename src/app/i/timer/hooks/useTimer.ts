@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import { IPomodoroRoundResponse } from '@/types/pomodoro.types'
+import type { IPomodoroRoundResponse } from '@/types/pomodoro.types'
+
+import type { ITimeState } from '../timer.types'
 
 import { useLoadSettings } from './useLoadSettings'
 
-export function useTimer() {
-	const { workInterval, breakInterval } = useLoadSettings()
+export function useTimer(): ITimeState {
+	const { breakInterval, workInterval } = useLoadSettings()
 
 	const [isRunning, setIsRunning] = useState(false)
 	const [isBreakTime, setIsBreakTime] = useState(false)
@@ -15,8 +17,11 @@ export function useTimer() {
 
 	useEffect(() => {
 		let interval: NodeJS.Timeout | null = null
-		setSecondsLeft(secondsLeft => secondsLeft - 1)
+
 		if (isRunning) {
+			interval = setInterval(() => {
+				setSecondsLeft(secondsLeft => secondsLeft - 1)
+			}, 1000)
 		} else if (!isRunning && secondsLeft !== 0 && interval) {
 			clearInterval(interval)
 		}
@@ -30,8 +35,15 @@ export function useTimer() {
 		if (secondsLeft > 0) return
 
 		setIsBreakTime(!isBreakTime)
-		setSecondsLeft(isBreakTime ? workInterval : breakInterval * 60)
+		setSecondsLeft((isBreakTime ? workInterval : breakInterval) * 60)
 	}, [secondsLeft, isBreakTime, workInterval, breakInterval])
 
-	return {}
+	return {
+		activeRound,
+		secondsLeft,
+		setActiveRound,
+		setIsRunning,
+		setSecondsLeft,
+		isRunning
+	}
 }

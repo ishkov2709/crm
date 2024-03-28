@@ -9,14 +9,14 @@ interface IPomodoroRounds {
 	rounds: IPomodoroRoundResponse[] | undefined
 	nextRoundHandler: () => void
 	prevRoundHandler: () => void
-	activerRound: IPomodoroRoundResponse | undefined
+	activeRound: IPomodoroRoundResponse | undefined
 }
 
-export default function PomodoroRounds({
+export function PomodoroRounds({
 	rounds,
 	nextRoundHandler,
 	prevRoundHandler,
-	activerRound
+	activeRound
 }: IPomodoroRounds) {
 	const isCanPrevRound = rounds
 		? rounds.some(round => round.isCompleted)
@@ -33,16 +33,17 @@ export default function PomodoroRounds({
 				<ChevronLeft size={23} />
 			</button>
 			<div className={styles.roundsContainer}>
-				{rounds?.map((round, index) => (
-					<div
-						key={index}
-						className={cn(styles.round, {
-							[styles.comleted]: round.isCompleted,
-							[styles.active]:
-								round.id === activerRound?.id && !round.isCompleted
-						})}
-					></div>
-				))}
+				{rounds &&
+					rounds.map((round, index) => (
+						<div
+							key={index}
+							className={cn(styles.round, {
+								[styles.completed]: round.isCompleted,
+								[styles.active]:
+									round.id === activeRound?.id && !round.isCompleted
+							})}
+						/>
+					))}
 			</div>
 			<button
 				className={styles.button}
