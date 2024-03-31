@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { TypeTimeBlockFormState } from '@/types/time-block.types'
+import type { TypeTimeBlockFormState } from '@/types/time-block.types'
 
 import { timeBlockService } from '@/api/services/time-block.service'
 
-export function useUpdateTimeBlock() {
+export function useUpdateTimeBlock(key?: string) {
 	const queryClient = useQueryClient()
 
-	const { mutate: updateTimeBlock, isPending } = useMutation({
-		mutationKey: ['update time-block'],
+	const { mutate: updateTimeBlock } = useMutation({
+		mutationKey: ['update time-block', key],
 		mutationFn: ({ id, data }: { id: string; data: TypeTimeBlockFormState }) =>
 			timeBlockService.updateTimeBlock(id, data),
 		onSuccess() {
@@ -17,5 +17,6 @@ export function useUpdateTimeBlock() {
 			})
 		}
 	})
-	return { updateTimeBlock, isPending }
+
+	return { updateTimeBlock }
 }
